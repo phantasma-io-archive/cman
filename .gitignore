@@ -1,0 +1,12 @@
+*.tmp
+.vs/
+TestResults/
+Published/
+*/obj/
+*/bin/
+packages/
+.github/*
+
+**/obj/**
+**/bin/**
+**/Dumps/**
