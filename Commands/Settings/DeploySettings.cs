@@ -15,5 +15,20 @@ namespace cman.Commands.Setting
         [Description("The node used to deploy")]
         [ValidateString]
         public string? RpcUrl { get; set; }
+        
+        [CommandOption("--nexus <value>")]
+        [Description("The nexus name, simnet / testnet / mainnet")]
+        [ValidateString]
+        public string? Nexus { get; set; }
+        
+        [CommandOption("--token <value>")]
+        [Description("The smart contraft if it's a token")]
+        [ValidateString]
+        public string? Token { get; set; }
+        
+        [CommandOption("--update <value>")]
+        [Description("The smart contraft if it's a token")]
+        [ValidateString]
+        public string? Update { get; set; }
     }
 }

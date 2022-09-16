@@ -1,3 +1,5 @@
+using System;
+using System.IO;
 using Microsoft.Extensions.Logging;
 using cman.Commands.Setting;
 using Spectre.Console.Cli;
@@ -8,6 +10,12 @@ using Phantasma.Shared.Types;
 using Phantasma.RpcClient;
 using Phantasma.RpcClient.Client;
 using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Phantasma.Business.VM.Utils;
+using Phantasma.Core.Cryptography;
+using Phantasma.Core.Domain;
+using Phantasma.Core.Numerics;
 
 namespace cman.Commands
 {
@@ -69,15 +77,28 @@ namespace cman.Commands
             //  TODO: this is just temporary, the test chain doesn't mint enough KCAL to deploy (KCAL needs to be burned to deploy a contract)
             sb.MintTokens(DomainSettings.FuelTokenSymbol, keyPair.Address, keyPair.Address, UnitConversion.ToBigInteger(1000000, DomainSettings.FuelTokenDecimals));
 
+            
             // Call the deploy interop function, and pass the deployer address, name, scirpt and abi
-            sb.CallInterop("Runtime.DeployContract", keyPair.Address, contractName, contractScript, abiBytes);
+            if (settings.Update != null && !Boolean.Parse(settings.Update))
+            {
+                if ( settings.Token != null && Boolean.Parse(settings.Token))
+                    sb.CallInterop("Runtime.DeployContract", keyPair.Address, contractName, contractScript, abiBytes);
+                else
+                    sb.CallInterop("Nexus.CreateToken", keyPair.Address, contractScript, abiBytes);
+            }
+            else
+            {
+                sb.CallInterop("Runtime.UpgradeContract", keyPair.Address, contractName, contractScript, abiBytes);
+            }
+            
+
 
             sb.SpendGas(keyPair.Address);
 
             var script = sb.EndScript();
 
             // create the transaction
-            var tx = new Transaction("mainnet", "main", script, Timestamp.Now + TimeSpan.FromMinutes(5), "cman");
+            var tx = new Transaction(settings.Nexus, "main", script, keyPair.Address, Timestamp.Now + TimeSpan.FromMinutes(5), "cman");
 
             // Mine the transaction (a contract deploy tx needs minimal POW, to avoid spam)
             tx.Mine(ProofOfWork.Minimal);
