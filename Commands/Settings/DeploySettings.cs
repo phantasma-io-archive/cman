@@ -21,14 +21,14 @@ namespace cman.Commands.Setting
         [ValidateString]
         public string? Nexus { get; set; }
         
-        [CommandOption("--token <value>")]
+        [CommandOption("--token")]
         [Description("The smart contraft if it's a token")]
-        [ValidateString]
-        public string? Token { get; set; }
+        [ValidateBool]
+        public bool Token { get; set; }
         
-        [CommandOption("--update <value>")]
+        [CommandOption("--update")]
         [Description("The smart contraft if it's a token")]
-        [ValidateString]
-        public string? Update { get; set; }
+        [ValidateBool]
+        public bool Update { get; set; }
     }
 }
