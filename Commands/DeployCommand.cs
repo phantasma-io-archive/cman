@@ -79,9 +79,9 @@ namespace cman.Commands
 
             
             // Call the deploy interop function, and pass the deployer address, name, scirpt and abi
-            if (settings.Update)
+            if (!settings.Update)
             {
-                if ( settings.Token)
+                if ( !settings.Token)
                     sb.CallInterop("Runtime.DeployContract", keyPair.Address, contractName, contractScript, abiBytes);
                 else
                     sb.CallInterop("Nexus.CreateToken", keyPair.Address, contractScript, abiBytes);

@@ -20,15 +20,15 @@ namespace cman.Commands.Setting
         [Description("The nexus name, simnet / testnet / mainnet")]
         [ValidateString]
         public string? Nexus { get; set; }
-        
+
         [CommandOption("--token")]
         [Description("The smart contraft if it's a token")]
         [ValidateBool]
-        public bool Token { get; set; }
-        
+        public bool Token { get; set; } = false;
+
         [CommandOption("--update")]
         [Description("The smart contraft if it's a token")]
         [ValidateBool]
-        public bool Update { get; set; }
+        public bool Update { get; set; } = false;
     }
 }
