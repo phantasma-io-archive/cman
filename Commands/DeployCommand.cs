@@ -75,7 +75,7 @@ namespace cman.Commands
             var sb = new ScriptBuilder();
 
             //  we need to allow gas, like for any other transaction
-            sb.AllowGas(keyPair.Address, keyPair.Address, 1000000, 9999999);
+            sb.AllowGas(keyPair.Address, Address.Null, 100000, 9999);
 
             //  TODO: this is just temporary, the test chain doesn't mint enough KCAL to deploy (KCAL needs to be burned to deploy a contract)
             //sb.MintTokens(DomainSettings.FuelTokenSymbol, keyPair.Address, keyPair.Address, UnitConversion.ToBigInteger(1000000, DomainSettings.FuelTokenDecimals));

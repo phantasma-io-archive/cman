@@ -19,7 +19,6 @@
       <ProjectReference Include="..\phantasma-ng\Phantasma.Core\src\Phantasma.Core.csproj" />
       <ProjectReference Include="..\phantasma-ng\Phantasma.Business\src\Phantasma.Business.csproj" />
       <ProjectReference Include="..\phantasma-ng\Phantasma.Core\src\Phantasma.Core.csproj" />
-      <ProjectReference Include="..\phantasma-ng\Phantasma.Shared\src\Phantasma.Shared.csproj" />
       <ProjectReference Include="..\PhantasmaRpcClient\Phantasma.RpcClient\Phantasma.RpcClient.csproj" />
   </ItemGroup>
 
