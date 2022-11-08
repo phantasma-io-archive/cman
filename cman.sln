@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phantasma.RpcClient", "..\P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phantasma.Core", "..\phantasma-ng\Phantasma.Core\src\Phantasma.Core.csproj", "{2D21D3D3-226C-4513-9F36-A32F4BB47B31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phantasma.Shared", "..\phantasma-ng\Phantasma.Shared\src\Phantasma.Shared.csproj", "{D8BD35BB-05BD-4BA8-823C-979CEDEFFEBA}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phantasma.Business", "..\phantasma-ng\Phantasma.Business\src\Phantasma.Business.csproj", "{99A862D8-8CEE-426E-A030-DC219669846C}"
 EndProject
 Global
@@ -34,10 +32,6 @@ Global
 		{2D21D3D3-226C-4513-9F36-A32F4BB47B31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D21D3D3-226C-4513-9F36-A32F4BB47B31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D21D3D3-226C-4513-9F36-A32F4BB47B31}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D8BD35BB-05BD-4BA8-823C-979CEDEFFEBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D8BD35BB-05BD-4BA8-823C-979CEDEFFEBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D8BD35BB-05BD-4BA8-823C-979CEDEFFEBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D8BD35BB-05BD-4BA8-823C-979CEDEFFEBA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{99A862D8-8CEE-426E-A030-DC219669846C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{99A862D8-8CEE-426E-A030-DC219669846C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99A862D8-8CEE-426E-A030-DC219669846C}.Release|Any CPU.ActiveCfg = Release|Any CPU

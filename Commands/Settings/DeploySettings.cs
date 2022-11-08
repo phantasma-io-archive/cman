@@ -16,6 +16,11 @@ namespace cman.Commands.Setting
         [ValidateString]
         public string? RpcUrl { get; set; }
         
+        [CommandOption("--wif <value>")]
+        [Description("The wif used to deploy")]
+        [ValidateString]
+        public string? Wif { get; set; }
+        
         [CommandOption("--nexus <value>")]
         [Description("The nexus name, simnet / testnet / mainnet")]
         [ValidateString]

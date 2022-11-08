@@ -4,18 +4,15 @@ using Microsoft.Extensions.Logging;
 using cman.Commands.Setting;
 using Spectre.Console.Cli;
 using Spectre.Console;
-using Phantasma.Core;
-using Phantasma.Business;
-using Phantasma.Shared.Types;
 using Phantasma.RpcClient;
 using Phantasma.RpcClient.Client;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Phantasma.Business.VM.Utils;
 using Phantasma.Core.Cryptography;
 using Phantasma.Core.Domain;
 using Phantasma.Core.Numerics;
+using Phantasma.Core.Types;
 
 namespace cman.Commands
 {
@@ -31,10 +28,16 @@ namespace cman.Commands
             var phantasmaService = new PhantasmaRpcService(new RpcClient(new Uri(settings.RpcUrl!), httpClientHandler: new HttpClientHandler { }));
 
             // read WIF -> KxMn2TgXukYaNXx7tEdjh7qB2YaMgeuKy47j4rvKigHhBuZWeP3r for testing purposes 
-            var wif = AnsiConsole.Prompt(new TextPrompt<string>("Enter [green]WIF[/]:").PromptStyle("red").Secret());
+            string wif = "";
+            if (settings.Wif == null)
+                wif = AnsiConsole.Prompt(new TextPrompt<string>("Enter [green]WIF[/]:").PromptStyle("red").Secret());
+            else
+                wif = settings.Wif;
 
             // create a keyPair
             var keyPair = PhantasmaKeys.FromWIF(wif);
+            
+            Console.WriteLine($"Address:{keyPair.Address}");
 
             var fileName = settings.Contract;
 
@@ -72,10 +75,10 @@ namespace cman.Commands
             var sb = new ScriptBuilder();
 
             //  we need to allow gas, like for any other transaction
-            sb.AllowGas(keyPair.Address, Address.Null, 100000, 9999);
+            sb.AllowGas(keyPair.Address, keyPair.Address, 1000000, 9999999);
 
             //  TODO: this is just temporary, the test chain doesn't mint enough KCAL to deploy (KCAL needs to be burned to deploy a contract)
-            sb.MintTokens(DomainSettings.FuelTokenSymbol, keyPair.Address, keyPair.Address, UnitConversion.ToBigInteger(1000000, DomainSettings.FuelTokenDecimals));
+            //sb.MintTokens(DomainSettings.FuelTokenSymbol, keyPair.Address, keyPair.Address, UnitConversion.ToBigInteger(1000000, DomainSettings.FuelTokenDecimals));
 
             
             // Call the deploy interop function, and pass the deployer address, name, scirpt and abi
@@ -96,7 +99,7 @@ namespace cman.Commands
             var script = sb.EndScript();
 
             // create the transaction
-            var tx = new Transaction(settings.Nexus, "main", script, keyPair.Address, Timestamp.Now + TimeSpan.FromMinutes(5), "cman");
+            var tx = new Transaction(settings.Nexus, "main", script, Timestamp.Now + TimeSpan.FromMinutes(10), "cman");
 
             // Mine the transaction (a contract deploy tx needs minimal POW, to avoid spam)
             tx.Mine(ProofOfWork.Minimal);
@@ -104,7 +107,7 @@ namespace cman.Commands
             // sign the tx
             tx.Sign(keyPair);
 
-            var rawTx = tx.ToByteArray(true);
+            var rawTx = tx.ToByteArray( true);
             var encodedRawTx = Base16.Encode(rawTx);
 
             // broadcast the tx
