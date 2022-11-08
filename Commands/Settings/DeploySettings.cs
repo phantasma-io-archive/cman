@@ -15,5 +15,25 @@ namespace cman.Commands.Setting
         [Description("The node used to deploy")]
         [ValidateString]
         public string? RpcUrl { get; set; }
+        
+        [CommandOption("--wif <value>")]
+        [Description("The wif used to deploy")]
+        [ValidateString]
+        public string? Wif { get; set; }
+        
+        [CommandOption("--nexus <value>")]
+        [Description("The nexus name, simnet / testnet / mainnet")]
+        [ValidateString]
+        public string? Nexus { get; set; }
+
+        [CommandOption("--token")]
+        [Description("The smart contraft if it's a token")]
+        [ValidateBool]
+        public bool Token { get; set; } = false;
+
+        [CommandOption("--update")]
+        [Description("The smart contraft if it's a token")]
+        [ValidateBool]
+        public bool Update { get; set; } = false;
     }
 }

@@ -10,3 +10,5 @@ packages/
 **/obj/**
 **/bin/**
 **/Dumps/**
+
+.idea/
