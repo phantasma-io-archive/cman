@@ -12,8 +12,9 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
     <PackageReference Include="Phantasma.Business" Version="1.0.5" />
     <PackageReference Include="Phantasma.Core" Version="1.0.3" />
-    <PackageReference Include="Spectre.Cli.Extensions.DependencyInjection" Version="0.4.0" />
-    <PackageReference Include="Spectre.Console" Version="0.44.0" />
+    <PackageReference Include="Spectre.Console.Cli.Extensions.DependencyInjection" Version="0.1.0" />
+    <PackageReference Include="Spectre.Console" Version="0.45.0" />
+    <PackageReference Include="Spectre.Console.Cli" Version="0.45.0" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
   </ItemGroup>
 
