@@ -10,6 +10,8 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
+    <PackageReference Include="Phantasma.Business" Version="1.0.5" />
+    <PackageReference Include="Phantasma.Core" Version="1.0.3" />
     <PackageReference Include="Spectre.Console.Cli.Extensions.DependencyInjection" Version="0.1.0" />
     <PackageReference Include="Spectre.Console" Version="0.45.0" />
     <PackageReference Include="Spectre.Console.Cli" Version="0.45.0" />
@@ -17,9 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-      <ProjectReference Include="..\phantasma-ng\Phantasma.Core\src\Phantasma.Core.csproj" />
-      <ProjectReference Include="..\phantasma-ng\Phantasma.Business\src\Phantasma.Business.csproj" />
-      <ProjectReference Include="..\phantasma-ng\Phantasma.Core\src\Phantasma.Core.csproj" />
       <ProjectReference Include="..\PhantasmaRpcClient\Phantasma.RpcClient\Phantasma.RpcClient.csproj" />
   </ItemGroup>
 

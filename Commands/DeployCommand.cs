@@ -1,11 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using Microsoft.Extensions.Logging;
 using cman.Commands.Setting;
 using Spectre.Console.Cli;
 using Spectre.Console;
-using Phantasma.RpcClient;
-using Phantasma.RpcClient.Client;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Phantasma.Business.VM.Utils;
@@ -13,6 +13,8 @@ using Phantasma.Core.Cryptography;
 using Phantasma.Core.Domain;
 using Phantasma.Core.Numerics;
 using Phantasma.Core.Types;
+using Phantasma.RpcClient;
+using Phantasma.RpcClient.Client;
 
 namespace cman.Commands
 {
@@ -75,7 +77,7 @@ namespace cman.Commands
             var sb = new ScriptBuilder();
 
             //  we need to allow gas, like for any other transaction
-            sb.AllowGas(keyPair.Address, Address.Null, 100000, 9999);
+            sb.AllowGas(keyPair.Address, Address.Null, 100000, 999999);
 
             //  TODO: this is just temporary, the test chain doesn't mint enough KCAL to deploy (KCAL needs to be burned to deploy a contract)
             //sb.MintTokens(DomainSettings.FuelTokenSymbol, keyPair.Address, keyPair.Address, UnitConversion.ToBigInteger(1000000, DomainSettings.FuelTokenDecimals));
@@ -108,10 +110,18 @@ namespace cman.Commands
             tx.Sign(keyPair);
 
             var rawTx = tx.ToByteArray( true);
-            var encodedRawTx = Base16.Encode(rawTx);
+            
+            Console.WriteLine($"HasSignatures: {tx.HasSignatures}");
 
-            // broadcast the tx
+
+            var encodedRawTx = Base16.Encode(rawTx);
+            
+            var tx2  = Transaction.Unserialize(Base16.Decode(encodedRawTx));
+            
+            Console.WriteLine(tx2?.Script);
+
             var txHash = await phantasmaService.SendRawTx.SendRequestAsync(encodedRawTx, "1");
+
             AnsiConsole.WriteLine($"Transaction hash: {txHash}");
 
             return await Task.FromResult(0);
