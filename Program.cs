@@ -2,7 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using cman.Commands;
 using Spectre.Console.Cli;
-using Spectre.Cli.Extensions.DependencyInjection;
+using Spectre.Console.Cli.Extensions.DependencyInjection;
 
 IServiceCollection? serviceCollection = new ServiceCollection()
     .AddLogging(configure =>
