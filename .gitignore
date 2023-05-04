@@ -12,3 +12,4 @@ packages/
 **/Dumps/**
 
 .idea/
+.DS_Store
