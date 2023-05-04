@@ -13,8 +13,9 @@ using Phantasma.Core.Cryptography;
 using Phantasma.Core.Domain;
 using Phantasma.Core.Numerics;
 using Phantasma.Core.Types;
-using Phantasma.RpcClient;
-using Phantasma.RpcClient.Client;
+using Phantasma.RPC.Sharp.Api;
+using Phantasma.RPC.Sharp.Client;
+using Phantasma.RPC.Sharp.Model;
 
 namespace cman.Commands
 {
@@ -27,9 +28,9 @@ namespace cman.Commands
         public override async Task<int> ExecuteAsync(CommandContext context, DeploySettings settings)
         {
             // init phantasma rpc
-            var phantasmaService = new PhantasmaRpcService(new RpcClient(new Uri(settings.RpcUrl!), httpClientHandler: new HttpClientHandler { }));
-
-            // read WIF -> KxMn2TgXukYaNXx7tEdjh7qB2YaMgeuKy47j4rvKigHhBuZWeP3r for testing purposes 
+            var api = new ApiClient(settings.RpcUrl!);
+            
+            //api.RestClient.Options.MaxTimeout = (int)TimeSpan.FromMinutes(2).TotalMilliseconds;
             string wif = "";
             if (settings.Wif == null)
                 wif = AnsiConsole.Prompt(new TextPrompt<string>("Enter [green]WIF[/]:").PromptStyle("red").Secret());
@@ -81,7 +82,6 @@ namespace cman.Commands
 
             //  TODO: this is just temporary, the test chain doesn't mint enough KCAL to deploy (KCAL needs to be burned to deploy a contract)
             //sb.MintTokens(DomainSettings.FuelTokenSymbol, keyPair.Address, keyPair.Address, UnitConversion.ToBigInteger(1000000, DomainSettings.FuelTokenDecimals));
-
             
             // Call the deploy interop function, and pass the deployer address, name, scirpt and abi
             if (!settings.Update)
@@ -109,20 +109,27 @@ namespace cman.Commands
             // sign the tx
             tx.Sign(keyPair);
 
-            var rawTx = tx.ToByteArray( true);
+            var rawTx = tx.ToByteArray( true );
             
             Console.WriteLine($"HasSignatures: {tx.HasSignatures}");
 
 
             var encodedRawTx = Base16.Encode(rawTx);
-            
-            var tx2  = Transaction.Unserialize(Base16.Decode(encodedRawTx));
-            
-            Console.WriteLine(tx2?.Script);
 
-            var txHash = await phantasmaService.SendRawTx.SendRequestAsync(encodedRawTx, "1");
+            AnsiConsole.WriteLine($"Transaction hash: {api.BasePath}");
+            var txAPI = new TransactionApi(api);
+            var rpc = new RpcApi(api);
 
-            AnsiConsole.WriteLine($"Transaction hash: {txHash}");
+            var body = new RpcRequest()
+            {
+                Id = "0",
+                Jsonrpc = "2.0",
+                Method = "sendRawTransaction",
+                Params = new List<object>() { encodedRawTx }
+            };
+            var txHash = rpc.RpcPost(body);
+
+            AnsiConsole.WriteLine($"Transaction hash: {txHash.Result}");
 
             return await Task.FromResult(0);
         }
